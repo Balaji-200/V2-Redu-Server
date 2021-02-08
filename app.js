@@ -28,7 +28,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 if(app.get('env') === 'development')
-  const delay = require('express-delay');
+  var delay = require('express-delay');
   app.use(delay(2000))
   
 app.use(cors());
