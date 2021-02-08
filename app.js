@@ -13,7 +13,6 @@ const pretestRouter = require('./routes/pretest');
 const posttestRouter = require('./routes/posttest');
 
 const passport = require('passport');
-const delay = require('express-delay');
 
 const app = express();
 
@@ -29,6 +28,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 if(app.get('env') === 'development')
+  const delay = require('express-delay');
   app.use(delay(2000))
   
 app.use(cors());
