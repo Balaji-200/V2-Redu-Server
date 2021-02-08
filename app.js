@@ -17,7 +17,8 @@ const delay = require('express-delay');
 
 const app = express();
 
-require('dotenv').config({ path: './config.env' })
+if(process.env.NODE_ENV == 'development')
+  require('dotenv').config({ path: './config.env' })
 
 connectDB();
 // view engine setup

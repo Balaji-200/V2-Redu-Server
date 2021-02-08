@@ -1,6 +1,7 @@
 const nodeMailer = require("nodemailer");
 const { generateResetPasswordLink } = require("./authenticate");
-require("dotenv").config({ path: "./config.env" });
+if(process.env.NODE_ENV == 'development')
+  require("dotenv").config({ path: "./config.env" });
 
 const transporter = nodeMailer.createTransport({
   service: "gmail",
