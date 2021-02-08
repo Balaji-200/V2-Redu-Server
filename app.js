@@ -27,9 +27,9 @@ app.set('view engine', 'hbs');
 app.use(passport.initialize())
 app.use(passport.session())
 
-if(app.get('env') === 'development')
-  var delay = require('express-delay');
-  app.use(delay(2000))
+// if(app.get('env') === 'development')
+//   var delay = require('express-delay');
+//   app.use(delay(2000))
   
 app.use(cors());
 app.use(logger('dev'));
