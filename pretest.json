@@ -1,0 +1,39 @@
+[
+  {
+    "question": "Which type of mobile system do you have?",
+    "options": ["Android", "IOS", "Any other"]
+  },
+  {
+    "question": "What is your opinion about virtual simulation?",
+    "options": ["Good", "Satisfactory", "Not much effective", "Bad"]
+  },
+  {
+    "question": "Does your eye strain while looking into mobile application?",
+    "options": ["Yes", "No", "Sometimes", "Rarely"]
+  },
+  {
+    "question": "Do you have any hearing difficulty",
+    "options": ["Yes", "No", "Sometimes", "Rarely"]
+  },
+  {
+    "question": "Do you have any previous knowledge about triage system?",
+    "options": ["Yes", "No", "Average", "Some", "Hardly any"]
+  },
+  {
+    "question": "When was the first time that you heard about triage system?",
+    "options": [
+      "Before coming to nursing college",
+      "After coming to nursing college",
+      "Had no knowledge till present",
+      "Had some knowledge from outside sources"
+    ]
+  },
+  {
+    "question": "Do you think it is necessary to learn about the triage system in 1st academic year?",
+    "options": ["Yes", "No", "Not Sure"]
+  },
+  {
+    "question": "Do you think virtual simulation would be better than lecture method?",
+    "options": ["Yes", "No", "Not Sure", "Sometimes effective"]
+  }
+]
