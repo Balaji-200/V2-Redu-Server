@@ -3,8 +3,7 @@ const passportLocal = require("passport-local");
 const Users = require("../models/user");
 const jwt = require("jsonwebtoken");
 const passportJwtStrategy = require("passport-jwt");
-if(process.env.NODE_ENV == 'development')
-  require("dotenv").config({ path: "./config.env" });
+// require("dotenv").config({ path: "./config.env" });
 
 passport.use(new passportLocal.Strategy({ usernameField: 'email' },Users.authenticate()));
 

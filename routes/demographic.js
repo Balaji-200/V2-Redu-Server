@@ -1,33 +1,23 @@
 const router = require("express").Router();
 const bodyParser = require("body-parser");
 const authenticate = require("../src/authenticate");
-const Pretest = require("../models/preTest");
-
-function calculateTotal(data){
-  let total = 0;
-  data.forEach(el => {
-    if(el.answer == el.correctAnswer) 
-      total++
-  });
-  return total;
-}
-
+const Demo = require("../models/demographic");
 
 router.use(bodyParser.json());
 
 router.route("/").get(authenticate.verifyUser, (req, res, next) => {
-  Pretest.find({}).populate("user")
+  Demo.find({}).populate("user")
     .then(
-      (pretest) => {
+      (data) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json(pretest);
+        res.json(data);
       },
       (err) => next(err)
     )
     .catch((err) => next(err));
 }).delete(authenticate.verifyUser, (req, res, next) => {
-  Pretest.deleteMany({}).then(response => {
+  Demo.deleteMany({}).then(response => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.json(response);
@@ -39,23 +29,23 @@ router.route("/").get(authenticate.verifyUser, (req, res, next) => {
 router
   .route("/response")
   .get(authenticate.verifyUser, (req, res, next) => {
-    Pretest.findOne({ user: req.user._id })
+    Demo.findOne({ user: req.user._id })
       .populate("user")
       .then(
-        (pretest) => {
-          if (pretest != null) {
+        (data) => {
+          if (data != null) {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
-            res.json(pretest);
+            res.json(data);
           } else {
-            Pretest.create({ user: req.user._id })
+            Demo.create({ user: req.user._id })
               .then(
-                (pre) => {
-                  pre.populate("user", (err, pres) => {
+                (dat) => {
+                  dat.populate("user", (err, datas) => {
                     if (err) next(err);
                     res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
-                    res.json(pres);
+                    res.json(datas);
                   });
                 },
                 (err) => next(err)
@@ -68,30 +58,29 @@ router
       .catch((err) => next(err));
   })
   .post(authenticate.verifyUser, (req, res, next) => {
-    Pretest.findOne({ user: req.user._id })
+    Demo.findOne({ user: req.user._id })
       .then(
-        (pretest) => {
-          if (pretest != null) {
+        (data) => {
+          if (data != null) {
             for (var i = 0; i < req.body.length; i++) {
-              if (pretest.questions.indexOf(req.body[i]._id) == -1)
-                pretest.questions.push(req.body[i]);
+              if (data.questions.indexOf(req.body[i]._id) == -1)
+                data.questions.push(req.body[i]);
             }
-            pretest.score = calculateTotal(req.body);
-            pretest.save().then((response) => {
-              response.populate("user", (err, pre) => {
+            data.save().then((response) => {
+              response.populate("user", (err, dat) => {
                 if (err) next(err);
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
-                res.json(pre);
+                res.json(dat);
               });
             });
           } else {
-            Pretest.create({ user: req.user._id, questions: req.body })
+            Demo.create({ user: req.user._id, questions: req.body })
               .then(
-                (pre) => {
+                (dat) => {
                   res.statusCode = 200;
                   res.setHeader("Content-Type", "application/json");
-                  res.json(pre);
+                  res.json(dat);
                 },
                 (err) => next(err)
               )
@@ -103,7 +92,7 @@ router
       .catch((err) => next(err));
   })
   .delete(authenticate.verifyUser, (req, res, next) => {
-    Pretest.deleteOne({ user: req.user._id }).then((response) => {
+    Demo.deleteOne({ user: req.user._id }).then((response) => {
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       res.json(response);

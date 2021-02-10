@@ -2,7 +2,15 @@ const router = require("express").Router();
 const bodyParser = require("body-parser");
 const authenticate = require("../src/authenticate");
 const PostTest = require("../models/posttest");
-const posttest = require("../models/posttest");
+
+function calculateTotal(data){
+  let total = 0;
+  data.forEach(el => {
+    if(el.answer == el.correctAnswer) 
+      total++
+  });
+  return total;
+}
 
 router.use(bodyParser.json());
 
@@ -71,6 +79,7 @@ router
               if (posttest.questions.indexOf(req.body[i]._id) == -1)
                 posttest.questions.push(req.body[i]);
             }
+            posttest.score = calculateTotal(req.body);
             posttest.save().then((response) => {
               response.populate("user", (err, pos) => {
                 if (err) next(err);
@@ -133,3 +142,4 @@ router
 ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 module.exports = router;
+
