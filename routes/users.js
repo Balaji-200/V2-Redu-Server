@@ -5,7 +5,6 @@ const router = express.Router();
 const Users = require("../models/user");
 const mailer = require("../src/mail");
 const authenticate = require("../src/authenticate");
-const { TokenExpiredError } = require("jsonwebtoken");
 
 router.use(bodyParser.json());
 /* GET users listing. */
@@ -40,6 +39,18 @@ router
       .catch((err) => next(err));
   });
 
+router.route("/:userId").delete(authenticate.verifyUser, (req, res, next) => {
+  Users.deleteOne({ _id: req.params.userId })
+    .then(
+      (response) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(response);
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
+});
 router.route("/signup").post((req, res, next) => {
   Users.findOne({ username: req.body.username, email: req.body.email })
     .then(

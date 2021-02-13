@@ -141,5 +141,32 @@ router
   });
 ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+router
+  .route("/:userId")
+  .get(authenticate.verifyUser, (req, res, next) => {
+    PostTest.findOne({ user: req.params.userId })
+      .then(
+        (response) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(response);
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  })
+  .delete(authenticate.verifyUser, (req, res, next) => {
+    PostTest.deleteOne({ user: req.params.userId })
+      .then(
+        (response) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(response);
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  });
+
 module.exports = router;
 

@@ -5,24 +5,28 @@ const Demo = require("../models/demographic");
 
 router.use(bodyParser.json());
 
-router.route("/").get(authenticate.verifyUser, (req, res, next) => {
-  Demo.find({}).populate("user")
-    .then(
-      (data) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(data);
-      },
-      (err) => next(err)
-    )
-    .catch((err) => next(err));
-}).delete(authenticate.verifyUser, (req, res, next) => {
-  Demo.deleteMany({}).then(response => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.json(response);
+router
+  .route("/")
+  .get(authenticate.verifyUser, (req, res, next) => {
+    Demo.find({})
+      .populate("user")
+      .then(
+        (data) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(data);
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
   })
-})
+  .delete(authenticate.verifyUser, (req, res, next) => {
+    Demo.deleteMany({}).then((response) => {
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.json(response);
+    });
+  });
 
 ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -101,4 +105,30 @@ router
 
 ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+router
+  .route("/:userId")
+  .get(authenticate.verifyUser, (req, res, next) => {
+    Demo.findOne({ user: req.params.userId })
+      .then(
+        (response) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(response);
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  })
+  .delete(authenticate.verifyUser, (req, res, next) => {
+    Demo.deleteOne({ user: req.params.userId })
+      .then(
+        (response) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(response);
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  });
 module.exports = router;
