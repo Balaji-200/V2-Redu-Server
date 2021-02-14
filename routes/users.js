@@ -180,11 +180,9 @@ router.post("/resetPassword/reset", (req, res, next) => {
 });
 
 router.get("/dashboard", authenticate.verifyUser, (req, res, next) => {
-  if (req.user) {
-    req.statusCode = 200;
+    res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.json({ user: req.user });
-  }
 });
 
 router.get("/logout", authenticate.verifyUser, (req, res, next) => {
