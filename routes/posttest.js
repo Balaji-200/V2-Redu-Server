@@ -122,10 +122,7 @@ router
           let date = new Date().getDate() + 7;
           let setDate = new Date();
           setDate.setDate(date);
-          let istTime = new Date(
-            setDate.getTime() + (330 + setDate.getTimezoneOffset()) * 60000
-          );
-          posttest.testDate = istTime.toISOString();
+          posttest.testDate = setDate.toISOString();
           posttest.save().then(
             (pos) => {
               res.statusCode = 200;
